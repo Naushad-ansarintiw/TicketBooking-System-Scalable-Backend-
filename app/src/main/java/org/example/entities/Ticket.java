@@ -1,6 +1,7 @@
 package org.example.entities;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Ticket {
     private String ticketId; 
     private String userId; 

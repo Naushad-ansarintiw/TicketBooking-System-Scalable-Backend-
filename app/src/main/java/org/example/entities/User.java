@@ -2,6 +2,9 @@ package org.example.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String name; 
     private String password; 

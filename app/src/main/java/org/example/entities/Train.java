@@ -2,6 +2,9 @@ package org.example.entities;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Train{
     private String trainId; 
     private String trainNo; 
