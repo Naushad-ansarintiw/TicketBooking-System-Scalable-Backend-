@@ -39,6 +39,9 @@ public class User {
     }
 
     public void printTickets(){
+        if(ticketsBooked.isEmpty()) {
+            System.out.println("NO Booking Present");
+        }
         for (int i = 0; i<ticketsBooked.size(); i++){
             System.out.println(ticketsBooked.get(i).getTicketInfo());
         }

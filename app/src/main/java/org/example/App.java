@@ -28,6 +28,9 @@ public class App {
 
         try {
             userBookingService = new UserBookingService();
+            trainSelectedForBooking = new Train();
+            // System.out.println("MAIN: Initial UserBookingService created - " + 
+            //     userBookingService.hashCode()); // Debug
             System.out.println("UserBookingService initialized successfully");
         } catch (IOException ex) {
             System.out.println("Error initializing UserBookingService: " + ex.getMessage());
@@ -76,10 +79,18 @@ public class App {
                         handleSignUp(scanner, userBookingService);
                         break;
                     case 2:
+                        // System.out.println("MAIN: Before login - userBookingService: " + 
+                        // userBookingService.hashCode()); // Debug
                         handleLogin(scanner, userBookingService);
+                        // System.out.println("MAIN: Before login - userBookingService: " + 
+                        // userBookingService.hashCode()); // Debug
                         break;
                     case 3:
+                        // System.out.println("MAIN: Fetch bookings - userBookingService: " + 
+                        // userBookingService.hashCode());
                         handleFetchBookings(userBookingService);
+                        // System.out.println("MAIN: Fetch bookings - userBookingService: " + 
+                        // userBookingService.hashCode());
                         break;
                     case 4:
                         trainSelectedForBooking = handleSearchTrains(scanner, userBookingService);
@@ -147,13 +158,13 @@ public class App {
             return;
         }
         
-        User userToLogin = new User(nameToLogin, passwordToLogin, 
-                UserServiceUtil.hashPassword(passwordToLogin), 
-                new ArrayList<>(), UUID.randomUUID().toString());
         try {
-            userBookingService = new UserBookingService(userToLogin);
-            userBookingService.loginUser();
-            System.out.println("Login successful!");
+            Boolean loginSuccess = userBookingService.loginUser(nameToLogin, passwordToLogin);
+            if (loginSuccess) {
+                System.out.println("Login successful!");
+            } else {
+                System.out.println("Login failed!");
+            }
         } catch (Exception ex) {
             System.out.println("Login failed: " + ex.getMessage());
         }
@@ -161,6 +172,8 @@ public class App {
     
     private static void handleFetchBookings(UserBookingService userBookingService) {
         System.out.println("=== Your Bookings ===");
+        System.out.println("FETCHING: Before creating new - userBookingService: " + 
+                userBookingService.hashCode()); // Debug
         userBookingService.fetchBooking();
     }
     

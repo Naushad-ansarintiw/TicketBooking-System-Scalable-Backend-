@@ -62,21 +62,26 @@ public class UserBookingService {
         }
     }
 
-    public Boolean loginUser() {
+    public Boolean loginUser(String username, String password) {
         Optional<User> foundUser = userList.stream().filter(user1 -> {
-            return user1.getName().equals(user.getName()) && 
-                   UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
+                System.out.println(user1.getName() + " " + user1.getPassword());
+                boolean nameMatches = user1.getName().equals(username);
+                boolean passwordMatches = UserServiceUtil.checkPassword(password, user1.getHashedPassword());
+                System.out.println(nameMatches + " " + passwordMatches);
+                System.out.println("");
+                return nameMatches && passwordMatches;
         }).findFirst();
         
         boolean loggedIn = foundUser.isPresent();
+        System.out.println(loggedIn + " " + foundUser + " LOGIN");
         if (loggedIn) {
-            System.out.println("Login successful for user: " + user.getName());
-            // Update the current user with the one from the file to get their tickets
             this.user = foundUser.get();
+            return true;    
         } else {
-            System.out.println("Login failed for user: " + user.getName());
+            this.user = null;
+            System.out.println("Login failed for user: " + username);
+            return false;
         }
-        return loggedIn;
     }
 
     public Boolean signUp(User user1) {
@@ -112,8 +117,9 @@ public class UserBookingService {
 
     // ... rest of your methods remain the same
     public void fetchBooking() {
-        if (user != null) {
-            user.printTickets();
+
+        if (this.user != null) {
+            this.user.printTickets();
         } else {
             System.out.println("No user logged in.");
         }
